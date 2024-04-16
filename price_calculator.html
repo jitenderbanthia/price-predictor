@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewellery Cost Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color: #000;
+        }
+
+        h2 {
+            text-align: center;
+            color: #000;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-container,
+        .table-container {
+            width: calc(50% - 10px);
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #000;
+            color: #fff;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #000;
+        }
+
+        input[type="number"] {
+            width: calc(100% - 10px);
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            display: block;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: right;
+            font-size: 24px;
+            color: blue;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Jewellery Cost Calculator</h2>
+
+    <div class="container">
+        <div class="form-container">
+            <form id="jewelryForm">
+                <label for="goldWeight">Gold Weight (grams):</label>
+                <input type="number" id="goldWeight" value=1 step="0.01" required>
+                <label for="goldRate">Gold Rate (per gram):</label>
+                <input type="number" id="goldRate" value=6142 step="0.01" required><br>
+                <label for="silverWeight">Silver Weight (grams):</label>
+                <input type="number" id="silverWeight" value=0 step="0.01" required>
+                <label for="silverRate">Silver Rate (per gram):</label>
+                <input type="number" id="silverRate" value=0 step="0.01" required><br>
+                <label for="diamondWeight">Diamond Weight (carats):</label>
+                <input type="number" id="diamondWeight" value=1 step="0.01" required>
+                <label for="diamondRate">Diamond Rate (per carat):</label>
+                <input type="number" id="diamondRate" value=12000 step="0.01" required><br>
+                <label for="stoneWeight">Stone Weight (carats):</label>
+                <input type="number" id="stoneWeight" value=1 step="0.01" required>
+                <label for="stoneRate">Stone Rate (per carat):</label>
+                <input type="number" id="stoneRate" value=1 step="0.01" required><br>
+                <label for="makingCost">Making Cost per gram:</label>
+                <input type="number" id="makingCostperGram" value=750 step="0.01" required><br>
+                <button type="button" onclick="calculateCost()">Calculate Cost</button>
+            </form>
+            <div id="result" class="hidden"></div>
+        </div>
+
+        <div class="table-container hidden">
+            <table id="ratesTable">
+                <tr>
+                    <th>Metal</th>
+                    <th>Rate (per unit)</th>
+                </tr>
+                <tr>
+                    <td>Gold</td>
+                    <td id="goldRateDisplay">-</td>
+                </tr>
+                <tr>
+                    <td>Silver</td>
+                    <td id="silverRateDisplay">-</td>
+                </tr>
+                <tr>
+                    <td>Diamond</td>
+                    <td id="diamondRateDisplay">-</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function updateRatesTable() {
+            var goldRate = document.getElementById('goldRate').value;
+            var silverRate = document.getElementById('silverRate').value;
+            var diamondRate = document.getElementById('diamondRate').value;
+
+            document.getElementById('goldRateDisplay').textContent = "Rs. " + goldRate;
+            document.getElementById('silverRateDisplay').textContent = "Rs. " + silverRate;
+            document.getElementById('diamondRateDisplay').textContent = "Rs. " + diamondRate;
+        }
+
+        function calculateCost() {
+            var goldWeight = parseFloat(document.getElementById('goldWeight').value);
+            var goldRate = parseFloat(document.getElementById('goldRate').value);
+            var silverWeight = parseFloat(document.getElementById('silverWeight').value);
+            var silverRate = parseFloat(document.getElementById('silverRate').value);
+            var diamondWeight = parseFloat(document.getElementById('diamondWeight').value);
+            var diamondRate = parseFloat(document.getElementById('diamondRate').value);
+            var stoneWeight = parseFloat(document.getElementById('stoneWeight').value);
+            var stoneRate = parseFloat(document.getElementById('stoneRate').value);
+            var makingCostperGram = parseFloat(document.getElementById('makingCostperGram').value);
+
+            var totalCost = (goldWeight * goldRate) + (silverWeight * silverRate) + (diamondWeight * diamondRate) +(stoneWeight * stoneRate) + makingCostperGram*goldWeight;
+
+            var resultElement = document.getElementById('result');
+            resultElement.innerText = "TOTAL COST : Rs " + totalCost.toFixed(2);
+            resultElement.classList.remove('hidden');
+
+            updateRatesTable(); // Update rates table when calculating the cost
+
+            // Show the rates table
+            document.querySelector('.table-container').classList.remove('hidden');
+        }
+    </script>
+</body>
+
+</html>
